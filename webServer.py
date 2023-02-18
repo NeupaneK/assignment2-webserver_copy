@@ -59,11 +59,15 @@ def webServer(port=13331):
             # Close client socket
             # Fill in start
             connectionSocket.close()
+
+        except BrokenPipeError:
+            break
+
             # Fill in end
 
     # Commenting out the below, as its technically not required and some students have moved it erroneously in the While loop. DO NOT DO THAT OR YOURE GONNA HAVE A BAD TIME.
-    # serverSocket.close()
-    # sys.exit()  # Terminate the program after sending the corresponding data
+    serverSocket.close()
+    sys.exit()  # Terminate the program after sending the corresponding data
 
 
 if __name__ == "__main__":
