@@ -21,14 +21,14 @@ def webServer(port=13331):
         connectionSocket, addr = serverSocket.accept()
 
         try:
-            message = serverSocket.recv(1024).decode()  # -a client is sending you a message 
+            message = serverSocket.recv(1024).decode() 
             filename = message.split()[1]
             f = open(filename[1:], 'rb')
             connectionSocket.send(b"HTTP/1.1 200 OK\r\n")
             connectionSocket.send(b"Content-Type: text/html; charset=UTF-8\r\n")
             connectionSocket.send(b"\r\n")
 
-            
+            # Fill in end
 
             # Send the content of the requested file to the client
             for i in f:  # for line in file
@@ -38,10 +38,14 @@ def webServer(port=13331):
 
         except IOError:
             # Send response message for invalid request due to the file not being found (404)
+            # Fill in start
             connectionSocket.send(b"HTTP/1.1 404 Not Found\r\n")
             connectionSocket.send(b'<html><head></head><body>h1> 404 Not Found </h1></body></html>')
             connectionSocket.send(b"\r\n")
             connectionSocket.close()
+        
+        except BrokenPipeError:
+            break
 
 
     serverSocket.close()
